@@ -9,25 +9,38 @@ function App() {
   const [restoreDeleted, setRestoreDeleted] = useState([]);
   const [dataBeforeDelete, setDataBeforeDelete] = useState([]);
   const [orderByCountry, setOrderByCountry] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
         const result = await fetchData();
         setData(result);
-        setDataBeforeDelete(result)
-        
+        setDataBeforeDelete(result);
       } catch (error) {
         console.log(error);
       }
     };
     getData();
+
+    const checkIsMobile = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 767);
+    };
+
+    window.addEventListener("resize", checkIsMobile);
+
+    checkIsMobile();
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
   }, []);
 
   const handleDelete = (id) => {
     const newUserList = data.filter((users) => users.login.uuid !== id);
     setData(newUserList);
-    
+
     setRestoreDeleted([...restoreDeleted, id]);
   };
 
@@ -40,8 +53,8 @@ function App() {
   };
 
   const restorToInitialState = () => {
-    setData(dataBeforeDelete)
-    setOrderByCountry(true)
+    setData(dataBeforeDelete);
+    setOrderByCountry(true);
   };
 
   const filteredDataByCountry = data.filter((user) =>
@@ -50,7 +63,7 @@ function App() {
 
   const filterByCountryName = () => {
     const sortedData = [...data];
-  
+
     sortedData.sort((a, b) => {
       const countryA = a.location.country.toLowerCase();
       const countryB = b.location.country.toLowerCase();
@@ -62,20 +75,20 @@ function App() {
       }
       return 0;
     });
-  
+
     if (orderByCountry) {
-      setData(sortedData); 
+      setData(sortedData);
     } else {
       const reversedData = [...sortedData].reverse();
-      setData(reversedData); 
+      setData(reversedData);
     }
-  
-    setOrderByCountry(!orderByCountry); 
+
+    setOrderByCountry(!orderByCountry);
   };
 
   const filterByName = () => {
     const sortedData = [...data];
-  
+
     sortedData.sort((a, b) => {
       const countryA = a.name.first.toLowerCase();
       const countryB = b.name.first.toLowerCase();
@@ -87,20 +100,20 @@ function App() {
       }
       return 0;
     });
-  
+
     if (orderByCountry) {
-      setData(sortedData); 
+      setData(sortedData);
     } else {
       const reversedData = [...sortedData].reverse();
-      setData(reversedData); 
+      setData(reversedData);
     }
-  
-    setOrderByCountry(!orderByCountry); 
+
+    setOrderByCountry(!orderByCountry);
   };
 
   const filterByLastName = () => {
     const sortedData = [...data];
-  
+
     sortedData.sort((a, b) => {
       const countryA = a.name.last.toLowerCase();
       const countryB = b.name.last.toLowerCase();
@@ -112,39 +125,77 @@ function App() {
       }
       return 0;
     });
-  
+
     if (orderByCountry) {
-      setData(sortedData); 
+      setData(sortedData);
     } else {
       const reversedData = [...sortedData].reverse();
-      setData(reversedData); 
+      setData(reversedData);
     }
-  
-    setOrderByCountry(!orderByCountry); 
+
+    setOrderByCountry(!orderByCountry);
   };
 
   return (
     <div className={styles.app}>
       <h1 className={styles.title}>Lista de usuarios</h1>
-      <header>
-        <button onClick={handleColorRows}>Colorea filas</button>
-        <button onClick={filterByCountryName}>Ordena por país</button>
-        <button onClick={restorToInitialState}>Restaurar estado inicial</button>
-        <input
-          type="text"
-          placeholder="Filtrar por país"
-          value={filter}
-          onChange={handleFilterChange}
-        ></input>
-      </header>
+      {isMobile ? (
+        <div className={styles.mobileContainer}>
+          <button onClick={restorToInitialState} className={styles.actionButton}>
+            Restaurar estado inicial
+          </button>
+          <button onClick={handleColorRows} className={styles.actionButton}>
+            Colorea filas
+          </button>
+          <button onClick={filterByCountryName} className={styles.actionButton}>
+            Ordena por país
+          </button>
+          <input
+            type="text"
+            placeholder="Filtrar por país"
+            value={filter}
+            onChange={handleFilterChange}
+          ></input>
+        </div>
+      ) : (
+        <header>
+          <button onClick={handleColorRows} className={styles.actionButton}>
+            Colorea filas
+          </button>
+          <button onClick={filterByCountryName} className={styles.actionButton}>
+            Ordena por país
+          </button>
+          <button onClick={restorToInitialState} className={styles.actionButton}>
+            Restaurar estado inicial
+          </button>
+          <input
+            type="text"
+            placeholder="Filtrar por país"
+            value={filter}
+            onChange={handleFilterChange}
+          ></input>
+        </header>
+      )}
       <main>
         <table>
           <thead>
             <tr>
               <th>Foto</th>
-              <th><button className={styles.headerButton} onClick={filterByName}>Nombre</button></th>
-              <th><button className={styles.headerButton} onClick={filterByLastName}>Apellido</button></th>
-              <th><button className={styles.headerButton} onClick={filterByCountryName}>País</button></th>
+              <th>
+                <button className={styles.headerButton} onClick={filterByName}>
+                  Nombre
+                </button>
+              </th>
+              <th>
+                <button className={styles.headerButton} onClick={filterByLastName}>
+                  Apellido
+                </button>
+              </th>
+              <th>
+                <button className={styles.headerButton} onClick={filterByCountryName}>
+                  País
+                </button>
+              </th>
               <th className={styles.th}>Acciones</th>
             </tr>
           </thead>
@@ -164,7 +215,10 @@ function App() {
                   <td>{user.name.last}</td>
                   <td>{user.location.country}</td>
                   <td>
-                    <button onClick={() => handleDelete(user.login.uuid)}>Delete</button>
+                    <button
+                      onClick={() => handleDelete(user.login.uuid)}
+                      className={styles.deleteButton}
+                    ></button>
                   </td>
                 </tr>
               );

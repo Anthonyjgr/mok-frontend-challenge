@@ -1,11 +1,5 @@
-:root{
-  /* background-color: #242424;
-  color:#ffffffde;
-  font-family: Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased; */
-  font-family: Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -15,7 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%;
 }
 
 .app {
@@ -25,16 +19,16 @@
   justify-content: center;
   width: 100%;
   text-align: center;
-} 
-
-header {
-display: flex;
-gap: 4px;
-justify-content: center;
-margin-bottom: 32px;
 }
 
-table{
+header {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+table {
   width: 100%;
   display: table;
   border-collapse: separate;
@@ -44,20 +38,19 @@ table{
   border-color: gray;
 }
 
-thead{
+thead {
   display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
+  vertical-align: middle;
+  border-color: inherit;
 }
 
-tr{
+tr {
   display: table-row;
   vertical-align: inherit;
   border-color: inherit;
-  
 }
 
-td{
+td {
   display: table-cell;
   vertical-align: inherit;
 }
@@ -69,32 +62,32 @@ th {
   text-align: -internal-center;
 }
 
-tbody{
+tbody {
   display: table-row-group;
   vertical-align: middle;
   border-color: inherit;
   width: 100%;
 }
 
-.title{
-font-size: 3.2em;
-line-height: 1.1
+.title {
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 .tr:hover {
- background-color: #09f;
+  background-color: #09f;
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: .6em 1.2em;
+  padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color .25s
+  transition: border-color 0.25s;
 }
 
 .headerButton {
@@ -105,34 +98,69 @@ button {
   color: #ffffffde;
 }
 
-
 button:hover {
-  border-color: #646cff
+  border-color: #646cff;
 }
 
-button:focus,button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
 .tableRowEven {
-  background-color: #112233; 
+  background-color: #112233;
 }
 
 .tableRowOdd {
-  background-color: #556677; 
+  background-color: #556677;
 }
 
 .tableRowDefault {
   background-color: inherit;
 }
+.deleteButton::before {
+  content: "Borrar";
+}
 
-
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  /* Estilos específicos para tablets */
+input {
+  padding-left: 10px;
 }
 
 @media screen and (max-width: 767px) {
+  header {
+    display: block;
+  }
+  .headerButton {
+    padding: 0px;
+  }
+  .deleteButton::before {
+    content: "X";
+  }
   .title {
     font-size: 35px;
+  }
+  .mobileContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+  }
+  .actionButton {
+    width: 45%;
+    height: 60px;
+    font-size: 14px;
+  }
+  input {
+    width: 100%;
+    height: 40px;
+    padding-left: 10px;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  body {
+    font-size: 14px;
   }
 }
