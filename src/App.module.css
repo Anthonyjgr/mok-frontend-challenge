@@ -131,8 +131,9 @@ input {
     display: block;
   }
   .headerButton {
-    padding: 0px;
+    padding: 5px;
   }
+  
   .deleteButton::before {
     content: "X";
   }
