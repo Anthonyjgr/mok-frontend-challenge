@@ -9,3 +9,5 @@ export const fetchData = async () => {
     throw error;
   }
 };
+
+

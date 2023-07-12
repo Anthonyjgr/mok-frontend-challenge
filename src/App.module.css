@@ -81,7 +81,6 @@ font-size: 3.2em;
 line-height: 1.1
 }
 
-
 .tr:hover {
  background-color: #09f;
 }
@@ -97,6 +96,15 @@ button {
   cursor: pointer;
   transition: border-color .25s
 }
+
+.headerButton {
+  background-color: inherit;
+  width: auto;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffffde;
+}
+
 
 button:hover {
   border-color: #646cff
@@ -116,4 +124,15 @@ button:focus,button:focus-visible {
 
 .tableRowDefault {
   background-color: inherit;
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* Estilos específicos para tablets */
+}
+
+@media screen and (max-width: 767px) {
+  .title {
+    font-size: 35px;
+  }
 }

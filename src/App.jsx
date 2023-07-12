@@ -9,7 +9,6 @@ function App() {
   const [restoreDeleted, setRestoreDeleted] = useState([]);
   const [dataBeforeDelete, setDataBeforeDelete] = useState([]);
   const [orderByCountry, setOrderByCountry] = useState(true);
-  const [hola, setHola] = useState([])
 
   useEffect(() => {
     const getData = async () => {
@@ -17,6 +16,7 @@ function App() {
         const result = await fetchData();
         setData(result);
         setDataBeforeDelete(result)
+        
       } catch (error) {
         console.log(error);
       }
@@ -27,6 +27,7 @@ function App() {
   const handleDelete = (id) => {
     const newUserList = data.filter((users) => users.login.uuid !== id);
     setData(newUserList);
+    
     setRestoreDeleted([...restoreDeleted, id]);
   };
 
@@ -40,14 +41,16 @@ function App() {
 
   const restorToInitialState = () => {
     setData(dataBeforeDelete)
+    setOrderByCountry(true)
   };
 
   const filteredDataByCountry = data.filter((user) =>
     user.location.country.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const filterByCountryName = () =>{
+  const filterByCountryName = () => {
     const sortedData = [...data];
+  
     sortedData.sort((a, b) => {
       const countryA = a.location.country.toLowerCase();
       const countryB = b.location.country.toLowerCase();
@@ -61,13 +64,64 @@ function App() {
     });
   
     if (orderByCountry) {
-      setData(sortedData); // Orden ascendente por país
+      setData(sortedData); 
     } else {
-      setData(data); // Restaurar estado original
+      const reversedData = [...sortedData].reverse();
+      setData(reversedData); 
     }
   
-    setOrderByCountry(!orderByCountry);
-  }
+    setOrderByCountry(!orderByCountry); 
+  };
+
+  const filterByName = () => {
+    const sortedData = [...data];
+  
+    sortedData.sort((a, b) => {
+      const countryA = a.name.first.toLowerCase();
+      const countryB = b.name.first.toLowerCase();
+      if (countryA < countryB) {
+        return -1;
+      }
+      if (countryA > countryB) {
+        return 1;
+      }
+      return 0;
+    });
+  
+    if (orderByCountry) {
+      setData(sortedData); 
+    } else {
+      const reversedData = [...sortedData].reverse();
+      setData(reversedData); 
+    }
+  
+    setOrderByCountry(!orderByCountry); 
+  };
+
+  const filterByLastName = () => {
+    const sortedData = [...data];
+  
+    sortedData.sort((a, b) => {
+      const countryA = a.name.last.toLowerCase();
+      const countryB = b.name.last.toLowerCase();
+      if (countryA < countryB) {
+        return -1;
+      }
+      if (countryA > countryB) {
+        return 1;
+      }
+      return 0;
+    });
+  
+    if (orderByCountry) {
+      setData(sortedData); 
+    } else {
+      const reversedData = [...sortedData].reverse();
+      setData(reversedData); 
+    }
+  
+    setOrderByCountry(!orderByCountry); 
+  };
 
   return (
     <div className={styles.app}>
@@ -88,9 +142,9 @@ function App() {
           <thead>
             <tr>
               <th>Foto</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>País</th>
+              <th><button className={styles.headerButton} onClick={filterByName}>Nombre</button></th>
+              <th><button className={styles.headerButton} onClick={filterByLastName}>Apellido</button></th>
+              <th><button className={styles.headerButton} onClick={filterByCountryName}>País</button></th>
               <th className={styles.th}>Acciones</th>
             </tr>
           </thead>
